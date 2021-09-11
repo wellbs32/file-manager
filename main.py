@@ -1,3 +1,4 @@
+
 from CONFIG import QUICK_ACCESS, BASE_PATH
 import functions
 
@@ -5,12 +6,14 @@ import os
 import sys
 import time
 
-os.chdir(BASE_PATH)
+os.chdir(os.getcwd())
 new_path = ''
 
 while True:
 
-    print(f'\nCurrent Directory: {os.getcwd()}')
+    current_dir = os.getcwd()
+
+    print(f'\nCurrent Directory: {current_dir}')
 
     # --- Function Selector ---
 
@@ -39,18 +42,30 @@ while True:
         functions.access_dir()
 
     elif choose_func == '4':
+
+        functions.go_back_dir()
+
+    elif choose_func == '5':
         # rename the directory or file
 
         functions.rename()
 
-    elif choose_func == '5':
+    elif choose_func == '6':
 
         functions.file_stats()
 
-    elif choose_func == '0':
+    elif choose_func == '7':
+
+        functions.create_file_dir(current_dir)
+
+    elif choose_func == '8':
+
+        functions.remove_file_dir(current_dir)
+
+    elif choose_func == '9':
         # exit program
 
         sys.exit()
 
     else:
-        print('Insert a valid number.')
+        print('\nInsert a valid number.')

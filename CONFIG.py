@@ -1,8 +1,8 @@
 QUICK_ACCESS = {
-    'Users': 'C:/Users/welli',
-    'Desktop': 'C:/Users/welli/Desktop',
-    'Documents': 'C:/Users/welli/Documents',
-    'Downloads': 'C:/Users/welli/Downloads'
+    'Home': '/home/wellington',
+    'Desktop': '/home/wellington/Desktop',
+    'Documents': '/home/wellington/Documents',
+    'Downloads': '/home/wellington/Downloads'
 }
 
 BASE_PATH = 'C:/Users/welli/Documents'

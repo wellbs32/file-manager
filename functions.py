@@ -5,35 +5,54 @@ import sys
 import time
 
 
-def options_menu():
-    print('''
- ##########################################################################
-#                                                                          #
-# OPTIONS: Quick Access [1] | Dir Content [2] | Enter Dir [3] | Rename [4] #
-#                                                                          #
-############################################################################
-#                                                                          #
-# | Properties [5] | Exit [0] |                                            #
-#                                                                          #
- ##########################################################################
-		''')
+def show_options():
+    print('\nWrite 0 to show the options:')
+    write_value = input()
 
-    print('What do you want to do?')
-    choose_func = input()
-    return choose_func
+    if write_value == '0':
+        return True
+    else:
+        return False
+
+
+def options_menu():
+    options_answer = show_options()
+
+    if options_answer:
+        print('''
+     ##############################################################################
+    #                                                                              #
+    # OPTIONS: Quick Access [1] | Dir Content [2] | Enter Dir [3] | Return Dir [4] #
+    #                                                                              #
+    ###############################################################################
+    #                                                                              #
+    #    Rename [5] | Properties [6] | Create File/Dir [7] | Remove File/Dir [8]   #
+    #                                                                              #
+    ################################################################################
+    #                                                                              #
+    #                                   Exit [9]                                   #
+    #                                                                              #
+     ##############################################################################
+            ''')
+
+        print('What do you want to do?')
+        choose_func = input()
+        return choose_func
+    else:
+        pass
 
 
 def quick_access_path():
-    print('\nQuick Access: | Users | Desktop | Documents | Downloads |\n')
+    print('\nQuick Access: | Home | Desktop | Documents | Downloads |')
 
-    print('What directory do you want access?')
+    print('\nWhat directory do you want access?')
     new_path = input()
 
     try:
         os.chdir(QUICK_ACCESS[new_path])
         return new_path
     except KeyError:
-        print('Insert a valid name.')
+        print('\nInsert a valid name.')
 
 
 def dir_content(path, base):
@@ -67,8 +86,13 @@ def access_dir():
         print('\nInsert a correct dir name.')
 
 
-def rename():
+def go_back_dir():
+    split_path = os.path.split(os.getcwd())
 
+    os.chdir(split_path[0])
+
+
+def rename():
     print('\nWhich file do you want to rename?')
     file_name = input()
 
@@ -84,7 +108,6 @@ def rename():
 
 
 def file_stats():
-
     print('\nSelect a file to see the properties.')
 
     try:
@@ -97,8 +120,37 @@ def file_stats():
         print('\nFile Properties')
         print('-------------------')
         print(f'Last Modification: {time.ctime(file_last_time)}')
-        print(f'Size: {file_size / 1000} KB')
+        print(f'Size: {(file_size / 1000):,} KB')
         print(f'Extension: {file_get_extension[-1]}')
 
     except FileNotFoundError:
-        print("File doesn't exists.")
+        print("\nFile doesn't exists.")
+
+
+def call_file_dir(path):
+    print('\nWrite the name of the file:')
+    file_name = input()
+
+    return os.path.join(path, file_name)
+
+
+def create_file_dir(path):
+    file_path = call_file_dir(path)
+    check_extension = os.path.splitext(file_path)
+
+    if check_extension[-1] == '':
+        os.mkdir(file_path)
+    else:
+        with open(file_path, 'a'):
+            os.utime(path, None)
+
+
+def remove_file_dir(path):
+    file_path = call_file_dir(path)
+
+    try:
+        os.remove(file_path)
+    except (PermissionError, IsADirectoryError):
+        os.rmdir(file_path)
+    except FileNotFoundError:
+        print("File or Dir doens't exists.")
